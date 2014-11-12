@@ -1,8 +1,13 @@
 package org.opendatakit.smsinput.activity.receiver;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.opendatakit.smsinput.model.OdkSms;
 import org.opendatakit.smsinput.model.SmsAccessor;
 import org.opendatakit.smsinput.util.BundleUtil;
 import org.opendatakit.smsinput.util.Config;
+import org.opendatakit.smsinput.util.ModelConverter;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -48,9 +53,22 @@ public class SmsReceiver extends BroadcastReceiver {
     SmsMessage[] messages = bundleUtil.getMessageFromBundle(extras);
     
     SmsAccessor accessor = this.createSmsAccessor();
+    ModelConverter converter = this.createConverter();
     
+    List<OdkSms> odkSmsMessages = new ArrayList<OdkSms>();
     
-
+    for (SmsMessage message : messages) {
+      OdkSms odkSms = converter.convertToOdkSms(message);
+      odkSmsMessages.add(odkSms);
+      
+      accessor.insertNewSmsMessage(odkSms, false, false);
+      
+    }
+    
+  }
+    
+  protected ModelConverter createConverter() {
+    return new ModelConverter();
   }
   
   protected BundleUtil createBundleUtil() {

@@ -39,8 +39,10 @@ public class SmsAccessor {
 	 * Insert a new SMS record into the database.
 	 * @param odkSms
 	 */
-	public void insertNewSmsMessage(OdkSms odkSms) {
-	  SmsDataRecord newRecord = new SmsDataRecord(odkSms, false, false);
+	public void insertNewSmsMessage(
+	    OdkSms odkSms,
+	    boolean wasParsed,
+	    boolean wasTallied) {
 	  throw new IllegalStateException("unimplented");
 	}
 
