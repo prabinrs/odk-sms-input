@@ -8,5 +8,5 @@ package org.opendatakit.smsinput.util;
 public class Config {
   
   public static final boolean DEBUG = true;
-
+  
 }

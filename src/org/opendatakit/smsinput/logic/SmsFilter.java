@@ -69,7 +69,7 @@ public class SmsFilter {
    * @param messages
    * @return
    */
-  protected List<OdkSms> convertToOdkMessages(SmsMessage[] messages) {
+  public List<OdkSms> convertToOdkMessages(SmsMessage[] messages) {
     List<OdkSms> odkMessages = new ArrayList<OdkSms>();
     
     for (SmsMessage message : messages) {

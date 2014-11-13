@@ -85,7 +85,11 @@ public class AppSmsAccessor {
 	    OdkSms odkSms,
 	    boolean wasParsed,
 	    boolean wasTallied) {
-	  throw new IllegalStateException("unimplented");
+	  SmsDataRecord dataRecord = new SmsDataRecord(
+	      odkSms,
+	      wasParsed,
+	      wasTallied);
+	  this.insertSmsDataRecord(dataRecord);
 	}
 
 }
