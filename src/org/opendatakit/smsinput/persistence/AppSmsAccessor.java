@@ -2,17 +2,19 @@ package org.opendatakit.smsinput.persistence;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.opendatakit.common.android.data.ColumnDefinition;
 import org.opendatakit.common.android.database.DatabaseFactory;
 import org.opendatakit.common.android.utilities.ODKDatabaseUtils;
 import org.opendatakit.smsinput.model.OdkSms;
 import org.opendatakit.smsinput.model.SmsDataRecord;
-import org.opendatakit.smsinput.util.AndroidCommonConverter;
+import org.opendatakit.smsinput.util.Config;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 /**
  * Read and write messages to/from the database.
@@ -20,6 +22,8 @@ import android.database.sqlite.SQLiteDatabase;
  *
  */
 public class AppSmsAccessor {
+  
+  public static final String TAG = AppSmsAccessor.class.getSimpleName();
   
   private ODKDatabaseUtils mDbUtil;
   private SQLiteDatabase mDatabase;
@@ -109,23 +113,30 @@ public class AppSmsAccessor {
 	public void insertSmsDataRecord(SmsDataRecord record) {
 	  
 	  ContentValues contentValues = this.getContentValuesFromRecord(record);
+	  	  
+	  ArrayList<ColumnDefinition> columnDefinitions =
+	      ColumnDefinition.buildColumnDefinitions(
+	          this.mAppId,
+	          this.mTableDefinition.getTableId(),
+	          this.mTableDefinition.getColumns()); 
 	  
-	  AndroidCommonConverter acConverter = new AndroidCommonConverter();
+	  String rowId = UUID.randomUUID().toString();
 	  
-	  List<ColumnDefinition> columnDefinitions =
-	      acConverter.getColumnDefinitionsFromColumns(
-	          this.mTableDefinition.getColumns());
-	  
-	  ArrayList<ColumnDefinition> arrColumnDefinitions =
-	      new ArrayList<ColumnDefinition>();
-	  arrColumnDefinitions.addAll(columnDefinitions);
+	  if (Config.DEBUG) {
+	    Log.d(
+	        TAG,
+	        "[insertSmsDataRecord] inserting sms record [" +
+	            record +
+	            "] with id [" +
+	            rowId + "]");
+	  }
 	  
 	  this.mDbUtil.insertDataIntoExistingDBTableWithId(
 	      this.mDatabase,
 	      this.mTableDefinition.getTableId(),
-	      arrColumnDefinitions,
+	      columnDefinitions,
 	      contentValues,
-	      null);
+	      rowId);
 	  
 	}
 	
