@@ -3,8 +3,14 @@ package org.opendatakit.smsinput.activity.receiver;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.opendatakit.common.android.database.DatabaseFactory;
+import org.opendatakit.common.android.utilities.ODKDataUtils;
+import org.opendatakit.common.android.utilities.ODKDatabaseUtils;
+import org.opendatakit.smsinput.logic.AppSmsProcessor;
+import org.opendatakit.smsinput.logic.MessageParser;
+import org.opendatakit.smsinput.logic.SmsProcessor;
 import org.opendatakit.smsinput.model.OdkSms;
-import org.opendatakit.smsinput.model.SmsAccessor;
+import org.opendatakit.smsinput.persistence.AppSmsAccessor;
 import org.opendatakit.smsinput.util.BundleUtil;
 import org.opendatakit.smsinput.util.Config;
 import org.opendatakit.smsinput.util.ModelConverter;
@@ -12,6 +18,7 @@ import org.opendatakit.smsinput.util.ModelConverter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
@@ -52,21 +59,10 @@ public class SmsReceiver extends BroadcastReceiver {
     
     SmsMessage[] messages = bundleUtil.getMessageFromBundle(extras);
     
-    SmsAccessor accessor = this.createSmsAccessor();
-    ModelConverter converter = this.createConverter();
-    
-    List<OdkSms> odkSmsMessages = new ArrayList<OdkSms>();
-    
-    for (SmsMessage message : messages) {
-      OdkSms odkSms = converter.convertToOdkSms(message);
-      odkSmsMessages.add(odkSms);
-      
-      accessor.insertNewSmsMessage(odkSms, false, false);
-      
-    }
+
     
   }
-    
+      
   protected ModelConverter createConverter() {
     return new ModelConverter();
   }
@@ -75,8 +71,35 @@ public class SmsReceiver extends BroadcastReceiver {
     return new BundleUtil();
   }
   
-  protected SmsAccessor createSmsAccessor() {
-    return new SmsAccessor();
+  protected SQLiteDatabase createDatabaseForApp(
+      Context context,
+      String appId) {
+    SQLiteDatabase result = DatabaseFactory.get().getDatabase(context, appId);
+    return result;
+  }
+  
+  protected AppSmsProcessor createSmsProcessor(Context context, String appId) {
+    ODKDatabaseUtils dbUtil = ODKDatabaseUtils.get();
+    SQLiteDatabase database = this.createDatabaseForApp(context, appId);
+    ModelConverter converter = this.createConverter();
+    MessageParser parser = this.createMessageParser();
+    
+    AppSmsProcessor result = new AppSmsProcessor(
+        appId,
+        dbUtil,
+        database,
+        converter,
+        parser);
+    
+    return result;
+  }
+  
+  protected ModelConverter createModelConverter() {
+    return new ModelConverter();
+  }
+  
+  protected MessageParser createMessageParser() {
+    return new MessageParser();
   }
 
 }
