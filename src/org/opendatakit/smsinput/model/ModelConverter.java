@@ -1,10 +1,7 @@
-package org.opendatakit.smsinput.util;
+package org.opendatakit.smsinput.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.opendatakit.smsinput.model.OdkSms;
-import org.opendatakit.smsinput.model.SmsDataRecord;
 
 import android.telephony.SmsMessage;
 

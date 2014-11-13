@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.opendatakit.common.android.utilities.ODKDatabaseUtils;
+import org.opendatakit.smsinput.model.ModelConverter;
 import org.opendatakit.smsinput.model.OdkSms;
 import org.opendatakit.smsinput.persistence.AppSmsAccessor;
 import org.opendatakit.smsinput.util.Config;
-import org.opendatakit.smsinput.util.ModelConverter;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.telephony.SmsMessage;

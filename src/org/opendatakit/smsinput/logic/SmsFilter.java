@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.opendatakit.smsinput.model.ModelConverter;
 import org.opendatakit.smsinput.model.OdkSms;
-import org.opendatakit.smsinput.util.ModelConverter;
 
 import android.telephony.SmsMessage;
 

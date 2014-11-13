@@ -8,12 +8,12 @@ import org.opendatakit.smsinput.R;
 import org.opendatakit.smsinput.logic.AppSmsProcessor;
 import org.opendatakit.smsinput.logic.MessageParser;
 import org.opendatakit.smsinput.logic.SmsFilter;
+import org.opendatakit.smsinput.model.ModelConverter;
 import org.opendatakit.smsinput.model.OdkSms;
 import org.opendatakit.smsinput.persistence.AppSmsAccessor;
 import org.opendatakit.smsinput.util.BundleUtil;
 import org.opendatakit.smsinput.util.Config;
 import org.opendatakit.smsinput.util.Constants;
-import org.opendatakit.smsinput.util.ModelConverter;
 import org.opendatakit.smsinput.util.ToastUtil;
 
 import android.content.BroadcastReceiver;
@@ -76,7 +76,7 @@ public class SmsReceiver extends BroadcastReceiver {
     this.doAppSpecificProcessing(odkMessages);
     
   }
-  
+    
   protected void doAppSpecificProcessing(List<OdkSms> odkMessages) {
     Log.i(
         TAG,
