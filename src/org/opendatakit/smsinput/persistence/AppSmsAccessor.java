@@ -1,12 +1,16 @@
 package org.opendatakit.smsinput.persistence;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.opendatakit.common.android.data.ColumnDefinition;
 import org.opendatakit.common.android.database.DatabaseFactory;
 import org.opendatakit.common.android.utilities.ODKDatabaseUtils;
 import org.opendatakit.smsinput.model.OdkSms;
 import org.opendatakit.smsinput.model.SmsDataRecord;
+import org.opendatakit.smsinput.util.AndroidCommonConverter;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -21,6 +25,8 @@ public class AppSmsAccessor {
   private SQLiteDatabase mDatabase;
   private String mAppId;
   
+  private SmsRecordDefinition mTableDefinition = new SmsRecordDefinition();
+  
   public AppSmsAccessor(
       ODKDatabaseUtils dbUtil,
       SQLiteDatabase database,
@@ -29,20 +35,20 @@ public class AppSmsAccessor {
     this.mDatabase = database;
     this.mAppId = appId;
     
+    this.mTableDefinition = new SmsRecordDefinition();
+    
     // Make sure the table exists.
     this.assertOrCreateSmsTable();
     
   }
-  
+    
   protected void assertOrCreateSmsTable() {
-    
-    SmsRecordDefinition tableDefinition = new SmsRecordDefinition();
-    
+        
     this.mDbUtil.createOrOpenDBTableWithColumns(
         this.mDatabase,
         this.mAppId,
-        tableDefinition.getTableId(),
-        tableDefinition.getColumns());
+        this.mTableDefinition.getTableId(),
+        this.mTableDefinition.getColumns());
     
   }
   
@@ -73,12 +79,61 @@ public class AppSmsAccessor {
 		return null;
 	}
 	
+	protected ContentValues getContentValuesFromRecord(SmsDataRecord record) {
+	  ContentValues result = new ContentValues();
+	  
+	  result.put(
+	      SmsRecordDefinition.ColumnNames.MESSAGE_BODY,
+	      record.getOdkSms().getMessageBody());
+	  
+	  result.put(
+	      SmsRecordDefinition.ColumnNames.SENDING_ADDRESS,
+	      record.getOdkSms().getSender());
+	  
+	  result.put(
+	      SmsRecordDefinition.ColumnNames.WAS_PARSED,
+	      record.wasParsed());
+	  
+	  result.put(
+	      SmsRecordDefinition.ColumnNames.WAS_TALLIED,
+	      record.wasDealtWith());
+	  
+	  return result;
+	  
+	}
+	
+	/**
+	 * Insert the data record into the database.
+	 * @param record
+	 */
 	public void insertSmsDataRecord(SmsDataRecord record) {
-	  throw new IllegalStateException("unimplemented");
+	  
+	  ContentValues contentValues = this.getContentValuesFromRecord(record);
+	  
+	  AndroidCommonConverter acConverter = new AndroidCommonConverter();
+	  
+	  List<ColumnDefinition> columnDefinitions =
+	      acConverter.getColumnDefinitionsFromColumns(
+	          this.mTableDefinition.getColumns());
+	  
+	  ArrayList<ColumnDefinition> arrColumnDefinitions =
+	      new ArrayList<ColumnDefinition>();
+	  arrColumnDefinitions.addAll(columnDefinitions);
+	  
+	  this.mDbUtil.insertDataIntoExistingDBTableWithId(
+	      this.mDatabase,
+	      this.mTableDefinition.getTableId(),
+	      arrColumnDefinitions,
+	      contentValues,
+	      null);
+	  
 	}
 	
 	/**
 	 * Insert a new SMS record into the database.
+	 * <p>
+	 * Convenience method for calling {@link this.insertSmsDataRecord} with the
+	 * given parsed and tallied values.
 	 * @param odkSms
 	 */
 	public void insertNewSmsMessage(

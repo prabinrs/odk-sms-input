@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.opendatakit.common.android.database.DatabaseFactory;
 import org.opendatakit.common.android.utilities.ODKDatabaseUtils;
+import org.opendatakit.smsinput.R;
 import org.opendatakit.smsinput.logic.AppSmsProcessor;
 import org.opendatakit.smsinput.logic.MessageParser;
 import org.opendatakit.smsinput.logic.SmsFilter;
@@ -13,6 +14,7 @@ import org.opendatakit.smsinput.util.BundleUtil;
 import org.opendatakit.smsinput.util.Config;
 import org.opendatakit.smsinput.util.Constants;
 import org.opendatakit.smsinput.util.ModelConverter;
+import org.opendatakit.smsinput.util.ToastUtil;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -35,6 +37,10 @@ public class SmsReceiver extends BroadcastReceiver {
   public void onReceive(Context context, Intent intent) {
     Bundle extras = intent.getExtras();
     
+    if (Config.DEBUG_TOASTS) {
+      
+    }
+    
     if (Config.DEBUG) {
       Log.d(TAG, "[onReceive] received intent");
     }
@@ -48,10 +54,11 @@ public class SmsReceiver extends BroadcastReceiver {
     }
     
     if (extras == null) {
-      if (Config.DEBUG) {
-        Log.d(TAG, "[onReceive] extras was null");
-      }
       return;
+    }
+    
+    if (Config.DEBUG_TOASTS) {
+      ToastUtil.doShort(context, R.string.received_potential_intent);
     }
     
     BundleUtil bundleUtil = this.createBundleUtil();

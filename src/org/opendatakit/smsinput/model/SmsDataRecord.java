@@ -23,15 +23,15 @@ public class SmsDataRecord {
     this.mWasDealtWith = wasDealtWith;
   }
 
-  public OdkSms getmOdkSms() {
+  public OdkSms getOdkSms() {
     return mOdkSms;
   }
 
-  public boolean ismWasParsed() {
+  public boolean wasParsed() {
     return mWasParsed;
   }
 
-  public boolean ismWasDealtWith() {
+  public boolean wasDealtWith() {
     return mWasDealtWith;
   }
 
