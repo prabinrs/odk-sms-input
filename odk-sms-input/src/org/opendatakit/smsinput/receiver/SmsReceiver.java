@@ -142,7 +142,7 @@ public class SmsReceiver extends BroadcastReceiver {
         new SmsRecordDefinition());
     
     for (OdkSms odkSms : odkMessages) {
-      smsInputAccessor.insertNewSmsMessage(odkSms, false, false);
+      smsInputAccessor.insertNewOdkMessage(odkSms, false, false);
     }
     
   }

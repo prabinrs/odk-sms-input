@@ -71,7 +71,7 @@ public class WriteStockMessageProcessor implements ISmsProcessor {
    * @param odkSms
    */
   protected void handleSms(OdkSms odkSms) {    
-    this.mAccessor.insertNewSmsMessage(odkSms, false, false);
+    this.mAccessor.insertNewOdkMessage(odkSms, false, false);
   }
 
 }

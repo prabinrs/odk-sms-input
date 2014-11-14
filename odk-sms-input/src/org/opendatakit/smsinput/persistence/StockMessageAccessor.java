@@ -98,7 +98,7 @@ public class StockMessageAccessor extends AbsTableInserter {
    * 
    * @param odkSms
    */
-  public void insertNewSmsMessage(
+  public void insertNewOdkMessage(
       OdkSms odkSms,
       boolean wasParsed,
       boolean wasTallied) {
