@@ -40,23 +40,29 @@ public class AppSmsProcessor {
     this.mConverter = converter;
     this.mParser = parser;
   }
+//  
+//  public void processSmsMessages(SmsMessage[] messages) {
+//    
+//    List<OdkSms> allMessages = this.convertToOdkMessages(messages);
+//    
+//    List<OdkSms> messagesForOdk = this.getMessagesForOdk(allMessages);
+//    
+//    if (messagesForOdk.isEmpty()) {
+//      if (Config.DEBUG) {
+//        Log.d(TAG, "[processSmsMessages] no messages for odk");
+//      }
+//    }
+//    
+//    for (OdkSms odkSms : messagesForOdk) {
+//      this.handleSms(odkSms);
+//    }
+//    
+//  }
   
-  public void processSmsMessages(SmsMessage[] messages) {
-    
-    List<OdkSms> allMessages = this.convertToOdkMessages(messages);
-    
-    List<OdkSms> messagesForOdk = this.getMessagesForOdk(allMessages);
-    
-    if (messagesForOdk.isEmpty()) {
-      if (Config.DEBUG) {
-        Log.d(TAG, "[processSmsMessages] no messages for odk");
-      }
-    }
-    
-    for (OdkSms odkSms : messagesForOdk) {
+  public void processSmsMessages(List<OdkSms> messages) {
+    for (OdkSms odkSms : messages) {
       this.handleSms(odkSms);
     }
-    
   }
   
   protected List<OdkSms> convertToOdkMessages(SmsMessage[] messages) {
@@ -76,7 +82,7 @@ public class AppSmsProcessor {
    * @param odkSms
    */
   protected void handleSms(OdkSms odkSms) {    
-    AppSmsAccessor accessor = this.getAccessor();
+    AppSmsAccessor accessor = this.createAccessor();
     accessor.insertNewSmsMessage(odkSms, false, false);
   }
   
@@ -100,7 +106,7 @@ public class AppSmsProcessor {
    * @param appId
    * @return
    */
-  protected AppSmsAccessor getAccessor() {
+  protected AppSmsAccessor createAccessor() {
     AppSmsAccessor result = new AppSmsAccessor(
         this.mUtil,
         this.mDatabase,

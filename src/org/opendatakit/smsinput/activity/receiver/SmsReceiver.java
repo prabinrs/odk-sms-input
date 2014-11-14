@@ -5,8 +5,10 @@ import java.util.List;
 import org.opendatakit.common.android.database.DatabaseFactory;
 import org.opendatakit.common.android.utilities.ODKDatabaseUtils;
 import org.opendatakit.smsinput.R;
+import org.opendatakit.smsinput.app.OdkAppReader;
 import org.opendatakit.smsinput.logic.AppSmsProcessor;
 import org.opendatakit.smsinput.logic.MessageParser;
+import org.opendatakit.smsinput.logic.OdkTablesSmsProcessor;
 import org.opendatakit.smsinput.logic.SmsFilter;
 import org.opendatakit.smsinput.model.ModelConverter;
 import org.opendatakit.smsinput.model.OdkSms;
@@ -73,15 +75,30 @@ public class SmsReceiver extends BroadcastReceiver {
     // received by the phone in the database.
     this.saveMessagesInSmsInputDatabase(context, odkMessages);
     
-    this.doAppSpecificProcessing(odkMessages);
+    this.doAppSpecificProcessing(context, odkMessages);
     
   }
     
-  protected void doAppSpecificProcessing(List<OdkSms> odkMessages) {
+  protected void doAppSpecificProcessing(
+      Context context,
+      List<OdkSms> odkMessages) {
     Log.i(
         TAG,
-        "[doAppSpecificProcessing] currently unimplemented on every "
-            + "received message.");
+        "[doAppSpecificProcessing] currently unimplemented for anything "
+            + "beyond basic ODK Tables debugging functionality.");
+    
+    OdkAppReader appReader = new OdkAppReader(context);
+    
+    List<String> smsAppIds = appReader.getAppIdsWithSmsInputEnabled();
+    
+    List<AppSmsProcessor> smsProcessors = appReader.getProcessorsForAppIds(
+        context,
+        smsAppIds);
+    
+    for (AppSmsProcessor smsProcessor : smsProcessors) {
+      smsProcessor.processSmsMessages(odkMessages);
+    }
+    
   }
   
   protected void saveMessagesInSmsInputDatabase(
