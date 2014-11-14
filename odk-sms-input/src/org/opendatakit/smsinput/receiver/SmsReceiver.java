@@ -10,6 +10,7 @@ import org.opendatakit.smsinput.app.OdkAppMessageProcessor;
 import org.opendatakit.smsinput.app.OdkAppReader;
 import org.opendatakit.smsinput.logic.MessageParser;
 import org.opendatakit.smsinput.logic.SmsFilter;
+import org.opendatakit.smsinput.logic.SmsInputAppProcessor;
 import org.opendatakit.smsinput.logic.WriteStockMessageProcessor;
 import org.opendatakit.smsinput.model.ModelConverter;
 import org.opendatakit.smsinput.model.OdkSms;
@@ -61,42 +62,40 @@ public class SmsReceiver extends BroadcastReceiver {
       return;
     }
     
-    if (Config.DEBUG_TOASTS) {
-      ToastUtil.doShort(context, R.string.received_potential_intent);
-    }
-    
     BundleUtil bundleUtil = this.createBundleUtil();
     
     SmsMessage[] messages = bundleUtil.getMessageFromBundle(extras);
     
-    ModelConverter converter = this.createConverter();
+    ModelConverter converter = this.createModelConverter();
     
     List<OdkSms> odkMessages = converter.convertToOdkSms(messages);
     
     // Save the SMS globally, so that we will be saving all the SMS messages
     // received by the phone in the database.
-    this.saveMessagesInSmsInputDatabase(context, odkMessages);
+    this.doSmsInputProcessing(context, odkMessages);
     
     this.doAppSpecificProcessing(context, odkMessages);
     
   }
   
   /**
-   * Do the universal procesing for every SMS that is performed by the SMS
+   * Do the universal processing for every SMS that is performed by the SMS
    * Input app itself.
    * @param context
    * @param messages
    */
   protected void doSmsInputProcessing(Context context, List<OdkSms> messages) {
 
-    String appId = Constants.DEFAULT_SMS_APP_ID;
-
-    ISmsProcessor stockProcessor = WriteStockMessageProcessor.createForApp(
-        context,
-        appId);
+    SmsInputAppProcessor smsInputProcessor =
+        this.createSmsInputProcessor(context);
     
-    stockProcessor.processSmsMessages(messages);
+    smsInputProcessor.processSmsMessages(messages);
     
+  }
+  
+  protected SmsInputAppProcessor createSmsInputProcessor(Context context) {
+    SmsInputAppProcessor result = new SmsInputAppProcessor(context);
+    return result;
   }
   
   protected OdkAppReader createAppReader(Context context) {
@@ -127,72 +126,12 @@ public class SmsReceiver extends BroadcastReceiver {
     return result;
   }
   
-  protected void saveMessagesInSmsInputDatabase(
-      Context context,
-      List<OdkSms> odkMessages) {
-    ODKDatabaseUtils dbUtil = this.createDatabaseUtil();
-    SQLiteDatabase smsInputDatabase = this.createDatabaseForApp(
-        context,
-        Constants.DEFAULT_SMS_APP_ID);
-    
-    StockMessageAccessor smsInputAccessor = new StockMessageAccessor(
-        dbUtil,
-        smsInputDatabase,
-        Constants.DEFAULT_SMS_APP_ID,
-        new SmsRecordDefinition());
-    
-    for (OdkSms odkSms : odkMessages) {
-      smsInputAccessor.insertNewOdkMessage(odkSms, false, false);
-    }
-    
-  }
-  
-  /**
-   * Get the database for the sms input app itself, as opposed to a
-   * user-defined ODK 2.0 app.
-   * @param context
-   * @return
-   */
-  protected SQLiteDatabase createSmsInputDatabase(Context context) {
-    SQLiteDatabase result = this.createDatabaseForApp(
-        context,
-        Constants.DEFAULT_SMS_APP_ID);
-    return result;
-  }
-      
-  protected ModelConverter createConverter() {
-    return new ModelConverter();
-  }
-  
   protected BundleUtil createBundleUtil() {
     return new BundleUtil();
   }
   
-  protected SmsFilter createSmsFilter() {
-    SmsFilter result = new SmsFilter(
-        this.createMessageParser());
-    
-    return result;
-  }
-  
-  protected SQLiteDatabase createDatabaseForApp(
-      Context context,
-      String appId) {
-    SQLiteDatabase result = DatabaseFactory.get().getDatabase(context, appId);
-    return result;
-  }
-  
-  protected ODKDatabaseUtils createDatabaseUtil() {
-    ODKDatabaseUtils result = ODKDatabaseUtils.get();
-    return result;
-  }
-  
   protected ModelConverter createModelConverter() {
     return new ModelConverter();
-  }
-  
-  protected MessageParser createMessageParser() {
-    return new MessageParser();
   }
 
 }
