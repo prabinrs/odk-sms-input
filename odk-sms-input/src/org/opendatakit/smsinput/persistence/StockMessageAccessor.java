@@ -19,11 +19,11 @@ import android.database.sqlite.SQLiteDatabase;
  * @author sudar.sam@gmail.com
  *
  */
-public class AppSmsAccessor extends AbsTableInserter {
+public class StockMessageAccessor extends AbsTableInserter {
 
-  public static final String TAG = AppSmsAccessor.class.getSimpleName();
+  public static final String TAG = StockMessageAccessor.class.getSimpleName();
 
-  public AppSmsAccessor(
+  public StockMessageAccessor(
       ODKDatabaseUtils dbUtil,
       SQLiteDatabase database,
       String appId,

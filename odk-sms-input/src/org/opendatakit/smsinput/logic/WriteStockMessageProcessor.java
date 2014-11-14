@@ -7,7 +7,7 @@ import org.opendatakit.common.android.utilities.ODKDatabaseUtils;
 import org.opendatakit.smsinput.api.ISmsProcessor;
 import org.opendatakit.smsinput.api.ITableDefinition;
 import org.opendatakit.smsinput.model.OdkSms;
-import org.opendatakit.smsinput.persistence.AppSmsAccessor;
+import org.opendatakit.smsinput.persistence.StockMessageAccessor;
 import org.opendatakit.smsinput.persistence.SmsRecordDefinition;
 
 import android.content.Context;
@@ -40,7 +40,7 @@ public class WriteStockMessageProcessor implements ISmsProcessor {
  
     ITableDefinition defaultTableDefinition = new SmsRecordDefinition();
     
-    AppSmsAccessor appAccessor = new AppSmsAccessor(
+    StockMessageAccessor appAccessor = new StockMessageAccessor(
         dbUtil,
         database,
         appId,
@@ -53,9 +53,9 @@ public class WriteStockMessageProcessor implements ISmsProcessor {
     
   }
   
-  private AppSmsAccessor mAccessor;
+  private StockMessageAccessor mAccessor;
   
-  public WriteStockMessageProcessor(AppSmsAccessor accessor) {
+  public WriteStockMessageProcessor(StockMessageAccessor accessor) {
     this.mAccessor = accessor;
   }
   

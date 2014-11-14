@@ -17,7 +17,7 @@ import org.junit.runner.RunWith;
 import org.opendatakit.common.android.utilities.ODKDatabaseUtils;
 import org.opendatakit.smsinput.model.ModelConverter;
 import org.opendatakit.smsinput.model.OdkSms;
-import org.opendatakit.smsinput.persistence.AppSmsAccessor;
+import org.opendatakit.smsinput.persistence.StockMessageAccessor;
 import org.opendatakit.smsinput.util.TestUtil;
 import org.robolectric.RobolectricTestRunner;
 
@@ -32,11 +32,11 @@ public class WriteStockSmsProcessorTest {
     
   WriteStockMessageProcessor processor;
   
-  AppSmsAccessor mockAccessor;
+  StockMessageAccessor mockAccessor;
   
   @Before
   public void before() {
-    this.mockAccessor = mock(AppSmsAccessor.class);
+    this.mockAccessor = mock(StockMessageAccessor.class);
     
     processor = new WriteStockMessageProcessor(this.mockAccessor);
     

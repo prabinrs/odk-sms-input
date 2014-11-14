@@ -13,7 +13,7 @@ import org.opendatakit.smsinput.logic.SmsFilter;
 import org.opendatakit.smsinput.logic.WriteStockMessageProcessor;
 import org.opendatakit.smsinput.model.ModelConverter;
 import org.opendatakit.smsinput.model.OdkSms;
-import org.opendatakit.smsinput.persistence.AppSmsAccessor;
+import org.opendatakit.smsinput.persistence.StockMessageAccessor;
 import org.opendatakit.smsinput.persistence.SmsRecordDefinition;
 import org.opendatakit.smsinput.util.BundleUtil;
 import org.opendatakit.smsinput.util.Config;
@@ -135,7 +135,7 @@ public class SmsReceiver extends BroadcastReceiver {
         context,
         Constants.DEFAULT_SMS_APP_ID);
     
-    AppSmsAccessor smsInputAccessor = new AppSmsAccessor(
+    StockMessageAccessor smsInputAccessor = new StockMessageAccessor(
         dbUtil,
         smsInputDatabase,
         Constants.DEFAULT_SMS_APP_ID,
