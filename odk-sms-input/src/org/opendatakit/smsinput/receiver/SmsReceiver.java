@@ -64,11 +64,11 @@ public class SmsReceiver extends BroadcastReceiver {
     
     BundleUtil bundleUtil = this.createBundleUtil();
     
-    SmsFilter filter = this.createSmsFilter();
-    
     SmsMessage[] messages = bundleUtil.getMessageFromBundle(extras);
     
-    List<OdkSms> odkMessages = filter.convertToOdkMessages(messages);
+    ModelConverter converter = this.createConverter();
+    
+    List<OdkSms> odkMessages = converter.convertToOdkSms(messages);
     
     // Save the SMS globally, so that we will be saving all the SMS messages
     // received by the phone in the database.
@@ -142,7 +142,6 @@ public class SmsReceiver extends BroadcastReceiver {
   
   protected SmsFilter createSmsFilter() {
     SmsFilter result = new SmsFilter(
-        this.createConverter(),
         this.createMessageParser());
     
     return result;

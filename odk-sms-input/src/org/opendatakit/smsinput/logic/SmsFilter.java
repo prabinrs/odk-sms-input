@@ -5,10 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.opendatakit.smsinput.model.ModelConverter;
 import org.opendatakit.smsinput.model.OdkSms;
-
-import android.telephony.SmsMessage;
 
 /**
  * Converts SMS messages from all incoming SMSs to those that are meant for
@@ -18,11 +15,9 @@ import android.telephony.SmsMessage;
  */
 public class SmsFilter {
   
-  private ModelConverter mConverter;
   private MessageParser mParser;
   
-  public SmsFilter(ModelConverter converter, MessageParser parser) {
-    this.mConverter = converter;
+  public SmsFilter(MessageParser parser) {
     this.mParser = parser;
   }
   
@@ -53,40 +48,11 @@ public class SmsFilter {
   }
   
   /**
-   * Get the messages that are intended for ODK.
-   * @param messages
-   * @return
-   */
-  public List<OdkSms> getMessagesForOdk(SmsMessage[] messages) {
-    List<OdkSms> convertedMessages = this.convertToOdkMessages(messages);
-    List<OdkSms> result = this.getMessagesForOdk(convertedMessages);
-    
-    return result;
-  }
-  
-  /**
-   * Convert the {@link SmsMessage}s to {@link OdkSms}.
-   * @param messages
-   * @return
-   */
-  public List<OdkSms> convertToOdkMessages(SmsMessage[] messages) {
-    List<OdkSms> odkMessages = new ArrayList<OdkSms>();
-    
-    for (SmsMessage message : messages) {
-      OdkSms odkSms = this.mConverter.convertToOdkSms(message);
-      odkMessages.add(odkSms);
-    }
-    
-    return odkMessages;
-    
-  }
-  
-  /**
    * Get the SMS messages meant for ODK.
    * @param messages
    * @return
    */
-  protected List<OdkSms> getMessagesForOdk(List<OdkSms> messages) {
+  public List<OdkSms> getMessagesForOdk(List<OdkSms> messages) {
     List<OdkSms> result = new ArrayList<OdkSms>();
     for (OdkSms sms : messages) {
       if (this.mParser.isForOdk(sms)) {

@@ -19,6 +19,24 @@ public class ModelConverter {
     return result;
   }
   
+  /**
+   * Convenience method for calling {@link #convertToOdkSms(SmsMessage)} on
+   * every message in messages.
+   * @param messages
+   * @return
+   */
+  public List<OdkSms> convertToOdkSms(SmsMessage[] messages) {
+    List<OdkSms> result = new ArrayList<OdkSms>();
+    
+    for (SmsMessage smsMessage : messages) {
+      OdkSms odkSms = this.convertToOdkSms(smsMessage);
+      result.add(odkSms);
+    }
+    
+    return result;
+    
+  }
+  
   public SmsDataRecord convertToDataRecord(
       OdkSms odkSms,
       boolean wasParsed,

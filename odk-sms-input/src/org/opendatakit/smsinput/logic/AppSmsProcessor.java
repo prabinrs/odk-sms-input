@@ -47,18 +47,6 @@ public class AppSmsProcessor {
     }
   }
   
-  protected List<OdkSms> convertToOdkMessages(SmsMessage[] messages) {
-    List<OdkSms> odkMessages = new ArrayList<OdkSms>();
-    
-    for (SmsMessage message : messages) {
-      OdkSms odkSms = this.mConverter.convertToOdkSms(message);
-      odkMessages.add(odkSms);
-    }
-    
-    return odkMessages;
-    
-  }
-  
   /**
    * Handle the sms.
    * @param odkSms
@@ -69,22 +57,8 @@ public class AppSmsProcessor {
   }
   
   /**
-   * Get the SMS messages meant for ODK.
-   * @param messages
-   * @return
-   */
-  protected List<OdkSms> getMessagesForOdk(List<OdkSms> messages) {
-    List<OdkSms> result = new ArrayList<OdkSms>();
-    for (OdkSms sms : messages) {
-      if (this.mParser.isForOdk(sms)) {
-        result.add(sms);
-      }
-    }
-    return result;
-  }
-  
-  /**
-   * Get the accessor for the given app. Would be relevant 
+   * Get the accessor for the given app. NB: this should perhaps be passed as a
+   * constructor parameter to facilitate app-dependent accessors.
    * @param appId
    * @return
    */
