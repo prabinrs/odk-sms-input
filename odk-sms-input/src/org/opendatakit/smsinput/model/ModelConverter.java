@@ -47,32 +47,5 @@ public class ModelConverter {
     return result;
     
   }
-  
-  /**
-   * 
-   * @param smsMessages
-   * @return
-   */
-  public List<SmsDataRecord> getOdkSms(
-      SmsMessage[] smsMessages,
-      boolean wasParsed,
-      boolean wasTallied) {
-    
-    List<SmsDataRecord> result = new ArrayList<SmsDataRecord>();
-    
-    for (SmsMessage message : smsMessages) {
-      OdkSms odkSms = this.convertToOdkSms(message);
-      
-      SmsDataRecord record = this.convertToDataRecord(
-          odkSms,
-          wasParsed,
-          wasTallied);
-      
-      result.add(record);
-    }
-    
-    return result;
-    
-  }
 
 }
