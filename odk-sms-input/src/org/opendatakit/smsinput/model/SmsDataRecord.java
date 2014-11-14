@@ -12,7 +12,7 @@ public class SmsDataRecord {
   private OdkSms mOdkSms;
 
   private boolean mWasParsed;
-  private boolean mWasDealtWith;
+  private boolean mWasTallied;
 
   public SmsDataRecord(
       OdkSms odkSms,
@@ -20,7 +20,7 @@ public class SmsDataRecord {
       boolean wasDealtWith) {
     this.mOdkSms = odkSms;
     this.mWasParsed = wasParsed;
-    this.mWasDealtWith = wasDealtWith;
+    this.mWasTallied = wasDealtWith;
   }
 
   public OdkSms getOdkSms() {
@@ -31,8 +31,8 @@ public class SmsDataRecord {
     return mWasParsed;
   }
 
-  public boolean wasDealtWith() {
-    return mWasDealtWith;
+  public boolean wasTallied() {
+    return mWasTallied;
   }
 
   @Override
@@ -40,7 +40,7 @@ public class SmsDataRecord {
     final int prime = 31;
     int result = 1;
     result = prime * result + ((mOdkSms == null) ? 0 : mOdkSms.hashCode());
-    result = prime * result + (mWasDealtWith ? 1231 : 1237);
+    result = prime * result + (mWasTallied ? 1231 : 1237);
     result = prime * result + (mWasParsed ? 1231 : 1237);
     return result;
   }
@@ -59,7 +59,7 @@ public class SmsDataRecord {
         return false;
     } else if (!mOdkSms.equals(other.mOdkSms))
       return false;
-    if (mWasDealtWith != other.mWasDealtWith)
+    if (mWasTallied != other.mWasTallied)
       return false;
     if (mWasParsed != other.mWasParsed)
       return false;
@@ -69,7 +69,7 @@ public class SmsDataRecord {
   @Override
   public String toString() {
     return "SmsDataRecord [mOdkSms=" + mOdkSms + ", mWasParsed=" + mWasParsed + ", mWasDealtWith="
-        + mWasDealtWith + "]";
+        + mWasTallied + "]";
   }
   
   

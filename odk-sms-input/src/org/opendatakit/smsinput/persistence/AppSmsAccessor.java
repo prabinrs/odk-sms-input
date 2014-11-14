@@ -100,7 +100,7 @@ public class AppSmsAccessor {
 	  
 	  result.put(
 	      SmsRecordDefinition.ColumnNames.WAS_TALLIED,
-	      record.wasDealtWith());
+	      record.wasTallied());
 	  
 	  return result;
 	  
