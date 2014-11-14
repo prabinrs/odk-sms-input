@@ -1,4 +1,4 @@
-package org.opendatakit.smsinput.activity.receiver;
+package org.opendatakit.smsinput.receiver;
 
 import java.util.List;
 
@@ -8,7 +8,6 @@ import org.opendatakit.smsinput.R;
 import org.opendatakit.smsinput.app.OdkAppReader;
 import org.opendatakit.smsinput.logic.AppSmsProcessor;
 import org.opendatakit.smsinput.logic.MessageParser;
-import org.opendatakit.smsinput.logic.OdkTablesSmsProcessor;
 import org.opendatakit.smsinput.logic.SmsFilter;
 import org.opendatakit.smsinput.model.ModelConverter;
 import org.opendatakit.smsinput.model.OdkSms;

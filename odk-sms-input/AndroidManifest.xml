@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         
-		<receiver android:name="org.opendatakit.smsinput.activity.receiver.SmsReceiver" android:enabled="true">
+		<receiver android:name="org.opendatakit.smsinput.receiver.SmsReceiver" android:enabled="true">
 			<intent-filter>
 				<action android:name="android.provider.Telephony.SMS_RECEIVED" />
 			</intent-filter>
