@@ -68,8 +68,13 @@ public abstract class AbsTableInserter {
     return this.getClass().getSimpleName();
   }
   
+  String createNewRowId() {
+    String result = UUID.randomUUID().toString();
+    return result;
+  }
+  
   /**
-   * Inser the content values into this table as a new row.
+   * Insert the content values into this table as a new row.
    * @param values
    */
   public void insertValuesIntoDatabase(ContentValues values) {
@@ -80,7 +85,7 @@ public abstract class AbsTableInserter {
             this.mTableDefinition.getTableId(),
             this.mTableDefinition.getColumns());
     
-    String rowId = UUID.randomUUID().toString();
+    String rowId = this.createNewRowId();
     
     if (Config.DEBUG) {
       Log.d(

@@ -13,9 +13,10 @@ import android.database.sqlite.SQLiteDatabase;
 
 /**
  * Read and write messages to/from the database. This is just in the ground
- * truth table, where the stock messages themselves are stored. This is not the
- * object that inputs messages into an arbitrary table.
- * 
+ * truth table, where the stock messages themselves are stored. This does not
+ * input arbitrary values into an arbitrary table. Rather it simply saves SMS
+ * messages for a given app so that all messages coming in to the device are
+ * saved.
  * @author sudar.sam@gmail.com
  *
  */
