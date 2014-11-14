@@ -1,18 +1,15 @@
 package org.opendatakit.smsinput.app;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.opendatakit.common.android.database.DatabaseFactory;
-import org.opendatakit.common.android.utilities.ODKDatabaseUtils;
-import org.opendatakit.smsinput.logic.AppSmsProcessor;
-import org.opendatakit.smsinput.logic.MessageParser;
-import org.opendatakit.smsinput.logic.OdkTablesSmsProcessor;
-import org.opendatakit.smsinput.model.ModelConverter;
+import org.opendatakit.smsinput.api.ISmsProcessor;
+import org.opendatakit.smsinput.logic.WriteStockMessageProcessor;
 import org.opendatakit.smsinput.util.Constants;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 /**
@@ -48,14 +45,23 @@ public class OdkAppReader {
     return result;
   }
   
-  public List<AppSmsProcessor> getProcessorsForAppIds(
-      Context context,
+  /**
+   * Get the {@link ISmsProcessor}s associated with the given app ids.
+   * @param context
+   * @param appIds
+   * @return
+   */
+  public Map<String, List<ISmsProcessor>> getProcessorsForAppIds(
       List<String> appIds) {
-    List<AppSmsProcessor> result = new ArrayList<AppSmsProcessor>();
+
+    Map<String, List<ISmsProcessor>> result =
+        new HashMap<String, List<ISmsProcessor>>();
     
     for (String appId : appIds) {
-      AppSmsProcessor processor = this.getProcessorForAppId(context, appId);
-      result.add(processor);
+      List<ISmsProcessor> appProcessors = this.getProcessorsForAppId(
+          this.mContext,
+          appId);
+      result.put(appId, appProcessors);
     }
     
     return result;
@@ -63,40 +69,24 @@ public class OdkAppReader {
   }
   
   /**
-   * Get the {@link AppSmsProcessor} for the given app id.
+   * Get the {@link WriteStockMessageProcessor} for the given app id.
    * @param appId
    * @return
    */
-  public AppSmsProcessor getProcessorForAppId(
+  public List<ISmsProcessor> getProcessorsForAppId(
       Context context,
       String appId) {
     if (!appId.equals(Constants.DEFAULT_TABLES_APP_ID)) {
       throw new IllegalArgumentException(
           "currently tables is the only supported sms parsing app");
     }
-       
-    OdkTablesSmsProcessor result =
-        this.createTablesSmsProcessor(this.mContext);
     
-    return result;
-    
-  }
-  
-  protected OdkTablesSmsProcessor createTablesSmsProcessor(Context context) {
-    String appId = Constants.DEFAULT_TABLES_APP_ID;
-    ODKDatabaseUtils dbUtil = ODKDatabaseUtils.get();
-    SQLiteDatabase tablesDatabase = DatabaseFactory.get().getDatabase(
+    ISmsProcessor tablesProcessor = WriteStockMessageProcessor.createForApp(
         context,
         appId);
-    ModelConverter converter = new ModelConverter();
-    MessageParser parser = new MessageParser();
-    
-    OdkTablesSmsProcessor result = new OdkTablesSmsProcessor(
-        appId,
-        dbUtil,
-        tablesDatabase,
-        converter,
-        parser);
+       
+    List<ISmsProcessor> result = new ArrayList<ISmsProcessor>();
+    result.add(tablesProcessor);
     
     return result;
     

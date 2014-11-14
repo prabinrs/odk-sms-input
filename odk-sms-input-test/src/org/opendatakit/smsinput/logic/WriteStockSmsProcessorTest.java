@@ -17,6 +17,7 @@ import org.junit.runner.RunWith;
 import org.opendatakit.common.android.utilities.ODKDatabaseUtils;
 import org.opendatakit.smsinput.model.ModelConverter;
 import org.opendatakit.smsinput.model.OdkSms;
+import org.opendatakit.smsinput.persistence.AppSmsAccessor;
 import org.opendatakit.smsinput.util.TestUtil;
 import org.robolectric.RobolectricTestRunner;
 
@@ -27,33 +28,17 @@ import android.database.sqlite.SQLiteDatabase;
  *
  */
 @RunWith(RobolectricTestRunner.class)
-public class AppSmsProcessorTest {
+public class WriteStockSmsProcessorTest {
+    
+  WriteStockMessageProcessor processor;
   
-  private static final String TEST_APP_ID = "appsmsprocessortest_appid";
-  
-  AppSmsProcessor processor;
-  
-  String appId;
-  ODKDatabaseUtils mockDbUtil;
-  SQLiteDatabase mockDatabase;
-  ModelConverter mockConverter;
-  MessageParser mockParser;
+  AppSmsAccessor mockAccessor;
   
   @Before
   public void before() {
-    this.appId = TEST_APP_ID;
+    this.mockAccessor = mock(AppSmsAccessor.class);
     
-    this.mockDbUtil = mock(ODKDatabaseUtils.class);
-    this.mockDatabase = mock(SQLiteDatabase.class);
-    this.mockConverter = mock(ModelConverter.class);
-    this.mockParser = mock(MessageParser.class);
-    
-    processor = new AppSmsProcessor(
-        this.appId,
-        this.mockDbUtil,
-        this.mockDatabase,
-        this.mockConverter,
-        this.mockParser);
+    processor = new WriteStockMessageProcessor(this.mockAccessor);
     
   }
   

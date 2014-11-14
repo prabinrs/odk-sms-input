@@ -5,13 +5,16 @@ import java.util.List;
 import org.opendatakit.common.android.database.DatabaseFactory;
 import org.opendatakit.common.android.utilities.ODKDatabaseUtils;
 import org.opendatakit.smsinput.R;
+import org.opendatakit.smsinput.api.ISmsProcessor;
+import org.opendatakit.smsinput.app.OdkAppMessageProcessor;
 import org.opendatakit.smsinput.app.OdkAppReader;
-import org.opendatakit.smsinput.logic.AppSmsProcessor;
 import org.opendatakit.smsinput.logic.MessageParser;
 import org.opendatakit.smsinput.logic.SmsFilter;
+import org.opendatakit.smsinput.logic.WriteStockMessageProcessor;
 import org.opendatakit.smsinput.model.ModelConverter;
 import org.opendatakit.smsinput.model.OdkSms;
 import org.opendatakit.smsinput.persistence.AppSmsAccessor;
+import org.opendatakit.smsinput.persistence.SmsRecordDefinition;
 import org.opendatakit.smsinput.util.BundleUtil;
 import org.opendatakit.smsinput.util.Config;
 import org.opendatakit.smsinput.util.Constants;
@@ -77,27 +80,51 @@ public class SmsReceiver extends BroadcastReceiver {
     this.doAppSpecificProcessing(context, odkMessages);
     
   }
+  
+  /**
+   * Do the universal procesing for every SMS that is performed by the SMS
+   * Input app itself.
+   * @param context
+   * @param messages
+   */
+  protected void doSmsInputProcessing(Context context, List<OdkSms> messages) {
+
+    String appId = Constants.DEFAULT_SMS_APP_ID;
+
+    ISmsProcessor stockProcessor = WriteStockMessageProcessor.createForApp(
+        context,
+        appId);
+    
+    stockProcessor.processSmsMessages(messages);
+    
+  }
+  
+  protected OdkAppReader createAppReader(Context context) {
+    OdkAppReader result = new OdkAppReader(context);
+    return result;
+  }
     
   protected void doAppSpecificProcessing(
       Context context,
       List<OdkSms> odkMessages) {
-    Log.i(
+    
+    Log.e(
         TAG,
         "[doAppSpecificProcessing] currently unimplemented for anything "
             + "beyond basic ODK Tables debugging functionality.");
     
-    OdkAppReader appReader = new OdkAppReader(context);
+    OdkAppReader appReader = this.createAppReader(context);
     
-    List<String> smsAppIds = appReader.getAppIdsWithSmsInputEnabled();
+    ISmsProcessor allAppProcessor = this.createAllAppProcessor(appReader);
     
-    List<AppSmsProcessor> smsProcessors = appReader.getProcessorsForAppIds(
-        context,
-        smsAppIds);
+    allAppProcessor.processSmsMessages(odkMessages);
     
-    for (AppSmsProcessor smsProcessor : smsProcessors) {
-      smsProcessor.processSmsMessages(odkMessages);
-    }
-    
+  }
+  
+  protected OdkAppMessageProcessor createAllAppProcessor(
+      OdkAppReader appReader) {
+    OdkAppMessageProcessor result = new OdkAppMessageProcessor(appReader);
+    return result;
   }
   
   protected void saveMessagesInSmsInputDatabase(
@@ -111,7 +138,8 @@ public class SmsReceiver extends BroadcastReceiver {
     AppSmsAccessor smsInputAccessor = new AppSmsAccessor(
         dbUtil,
         smsInputDatabase,
-        Constants.DEFAULT_SMS_APP_ID);
+        Constants.DEFAULT_SMS_APP_ID,
+        new SmsRecordDefinition());
     
     for (OdkSms odkSms : odkMessages) {
       smsInputAccessor.insertNewSmsMessage(odkSms, false, false);
@@ -156,22 +184,6 @@ public class SmsReceiver extends BroadcastReceiver {
   
   protected ODKDatabaseUtils createDatabaseUtil() {
     ODKDatabaseUtils result = ODKDatabaseUtils.get();
-    return result;
-  }
-  
-  protected AppSmsProcessor createSmsProcessor(Context context, String appId) {
-    ODKDatabaseUtils dbUtil = this.createDatabaseUtil();
-    SQLiteDatabase database = this.createDatabaseForApp(context, appId);
-    ModelConverter converter = this.createConverter();
-    MessageParser parser = this.createMessageParser();
-    
-    AppSmsProcessor result = new AppSmsProcessor(
-        appId,
-        dbUtil,
-        database,
-        converter,
-        parser);
-    
     return result;
   }
   

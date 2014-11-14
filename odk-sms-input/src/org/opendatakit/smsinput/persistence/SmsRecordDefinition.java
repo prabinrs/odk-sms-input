@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.opendatakit.aggregate.odktables.rest.entity.Column;
-import org.opendatakit.common.android.data.ColumnDefinition;
 import org.opendatakit.common.android.data.ElementDataType;
+import org.opendatakit.smsinput.api.ITableDefinition;
 
-public class SmsRecordDefinition {
+public class SmsRecordDefinition implements ITableDefinition {
   
   private static final String TABLE_ID = "sms_records";
   
@@ -18,10 +18,12 @@ public class SmsRecordDefinition {
     public static final String MESSAGE_BODY = "message_body";
   }
   
+  @Override
   public String getTableId() {
     return TABLE_ID;
   }
   
+  @Override
   public List<Column> getColumns() {
     List<Column> result = new ArrayList<Column>();
     
