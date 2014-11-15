@@ -9,6 +9,7 @@
     <TextView
         android:id="@+id/sms_data_record_sender"
         android:layout_width="match_parent"
+        android:textColor="@android:color/darker_gray"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:text="@string/sending_address"
@@ -22,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:text="@string/message_body"
-        android:textAppearance="?android:attr/textAppearanceListItem"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin" />
     
