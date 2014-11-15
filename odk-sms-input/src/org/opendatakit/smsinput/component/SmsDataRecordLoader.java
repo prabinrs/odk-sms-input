@@ -1,11 +1,11 @@
-package org.opendatakit.smsinput.persistence;
+package org.opendatakit.smsinput.component;
 
 import java.util.List;
 
 import org.opendatakit.common.android.utilities.ODKDatabaseUtils;
 import org.opendatakit.smsinput.api.ITableDefinition;
-import org.opendatakit.smsinput.component.AbsSmsInputLoader;
 import org.opendatakit.smsinput.model.SmsDataRecord;
+import org.opendatakit.smsinput.persistence.StockMessageAccessor;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
