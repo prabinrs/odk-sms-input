@@ -21,5 +21,8 @@
     <string name="all_processed_messages">All Processed Messages</string>
     
     <string name="apps_with_sms_input_enabled">Apps with SMS Input Enabled</string>
+    
+    <string name="sending_address">Sending Address</string>
+    <string name="message_body">Message body.</string>
 
 </resources>
