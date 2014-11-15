@@ -7,7 +7,8 @@ public class Constants {
   public static final String DEFAULT_SMS_APP_ID = "sms_input";
   
   public static class LoaderIds {
-    public static final int SMS_DATA_RECORDS = 1; 
+    public static final int SMS_DATA_RECORDS = 1;
+    public static final int SMS_ENABLED_APPS = 2;
   }
   
   public static class BundleKeys {

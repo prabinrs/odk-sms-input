@@ -19,7 +19,29 @@ public class WelcomeActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		this.setShowMessagesHandler();
+		this.setShowEnabledAppsHandler();
 		
+	}
+	
+	protected void setShowEnabledAppsHandler() {
+	  
+	  Button button = (Button) this.findViewById(R.id.show_enabled_apps);
+	  
+	  button.setOnClickListener(new OnClickListener() {
+      
+      @Override
+      public void onClick(View v) {
+        Intent intent = new Intent();
+        
+        intent.setClass(
+            WelcomeActivity.this,
+            ListSmsEnabledAppsActivity.class);
+        
+        WelcomeActivity.this.startActivity(intent);
+        
+      }
+    });
+	  
 	}
 	
 	protected void setShowMessagesHandler() {
