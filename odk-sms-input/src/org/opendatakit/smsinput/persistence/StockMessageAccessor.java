@@ -1,5 +1,6 @@
 package org.opendatakit.smsinput.persistence;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.opendatakit.common.android.utilities.ODKDatabaseUtils;
@@ -7,8 +8,10 @@ import org.opendatakit.smsinput.api.AbsTableInserter;
 import org.opendatakit.smsinput.api.ITableDefinition;
 import org.opendatakit.smsinput.model.OdkSms;
 import org.opendatakit.smsinput.model.SmsDataRecord;
+import org.opendatakit.smsinput.util.AndroidCommonUtil;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 /**
@@ -31,6 +34,51 @@ public class StockMessageAccessor extends AbsTableInserter {
       ITableDefinition defaultTableDefinition) {
     super(dbUtil, database, appId, defaultTableDefinition);
   }
+  
+  protected List<SmsDataRecord> getDataRecordsFromCursor(
+      Cursor cursor,
+      AndroidCommonUtil acUtil) {
+    
+    List<SmsDataRecord> result = new ArrayList<SmsDataRecord>();
+    
+    if (!cursor.moveToFirst()) {
+      return result;
+    }
+    
+    int senderIndex = cursor.getColumnIndexOrThrow(
+        SmsRecordDefinition.ColumnNames.SENDING_ADDRESS);
+    
+    int messageBodyIndex = cursor.getColumnIndexOrThrow(
+        SmsRecordDefinition.ColumnNames.MESSAGE_BODY);
+    
+    int wasTalliedIndex = cursor.getColumnIndexOrThrow(
+        SmsRecordDefinition.ColumnNames.WAS_TALLIED);
+    
+    int wasParsedIndex = cursor.getColumnIndexOrThrow(
+        SmsRecordDefinition.ColumnNames.WAS_PARSED);
+    
+    while (cursor.moveToNext()) {
+      
+      String sender = cursor.getString(senderIndex);
+      String body = cursor.getString(messageBodyIndex);
+      
+      int iTallied = cursor.getInt(wasTalliedIndex);
+      int iParsed = cursor.getInt(wasParsedIndex);
+      
+      boolean parsed = acUtil.getBooleanFromInt(iParsed);
+      boolean tallied = acUtil.getBooleanFromInt(iTallied);
+      
+      OdkSms odkSms = new OdkSms(sender, body);
+      
+      SmsDataRecord record = new SmsDataRecord(odkSms, parsed, tallied);
+      
+      result.add(record);
+      
+    }
+    
+    return result;
+    
+  }
 
   /**
    * Get the messages that have not yet been dealt with. E.g. this might return
@@ -50,8 +98,29 @@ public class StockMessageAccessor extends AbsTableInserter {
    * @param appId
    * @return
    */
-  public List<SmsDataRecord> getAllMessages(String appId) {
-    return null;
+  public List<SmsDataRecord> getAllMessages() {
+    
+    AndroidCommonUtil acUtil = new AndroidCommonUtil();
+    
+    String[] elementKeys = acUtil.getElementKeysForSelection(
+        this.getTableDefinition());
+    
+    Cursor cursor = this.getDbUtil().query(
+        this.getAppDatabase(),
+        false,
+        this.getTableDefinition().getTableId(),
+        elementKeys,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null);
+    
+    List<SmsDataRecord> result = this.getDataRecordsFromCursor(cursor, acUtil);
+    
+    return result;
+    
   }
 
   protected ContentValues getContentValuesFromRecord(SmsDataRecord record) {

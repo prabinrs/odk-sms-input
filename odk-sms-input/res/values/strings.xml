@@ -24,5 +24,7 @@
     
     <string name="sending_address">Sending Address</string>
     <string name="message_body">Message body.</string>
+    
+    <string name="no_messages">No Messages</string>
 
 </resources>

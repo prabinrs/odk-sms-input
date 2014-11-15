@@ -39,14 +39,14 @@
 
 
         <Button
-                android:id="@+id/send_sms_with_confirmation"
+                android:id="@+id/show_processed_messages"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:text="@string/all_processed_messages" />
 
         <Button
-                android:id="@+id/send_sms_without_confirmation"
+                android:id="@+id/show_enabled_apps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/apps_with_sms_input_enabled"/>

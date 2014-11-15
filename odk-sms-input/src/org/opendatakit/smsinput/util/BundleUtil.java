@@ -24,5 +24,20 @@ public class BundleUtil {
     return messages;
     
   }
+  
+  public void putAppIdInBundle(Bundle bundle, String appId) {
+    bundle.putString(
+        Constants.BundleKeys.APP_ID,
+        appId);
+  }
+  
+  public String getAppIdFromBundle(Bundle bundle) {
+    String key = Constants.BundleKeys.APP_ID;
+    if (!bundle.containsKey(key)) {
+      throw new IllegalStateException("app id not present in bundle");
+    }
+    String result = bundle.getString(key);
+    return result;
+  }
 
 }
