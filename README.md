@@ -14,6 +14,43 @@ When used with the [ODK SMS Bridge](https://github.com/srsudar/odk-sms-bridge),
 you can use Survey on a phone without internet connectivity, communicate that
 data to a phone running ODK SMS Input, and it will all appear in the database.
 
+### Interface
+
+For the most part, the app should work behind the scenes. A UI is included to
+aid in debugging.
+
+When installed, it stores all incoming messages into its own database. By
+default it also saves all messages into the ODK Tables database, as well as any
+customized processing.
+
+<p align="center">
+  <img
+    alt="The welcome screen of the app, describing its purpose."
+    src="images/welcome_screen.png"
+    width="400px">
+</p>
+
+The messages saved by the app are displayed in a list. The database should be
+purged from time to time if you don't need the messages.
+
+<p align="center">
+  <img
+    alt="The message list screen of the app, displaying all saved messages."
+    src="images/all_messages_screen.png"
+    width="400px">
+</p>
+
+It also displays the ids of the installed apps it detects have SMS input
+enabled.
+
+<p align="center">
+  <img
+    alt="The list of ODK apps it detects are enabled for SMS input."
+    src="images/sms_enabled_apps_screen.png"
+    width="400px">
+</p>
+    
+
 ## Usage
 
 For now, you will have to write a `processor` and a `parser` in Java, build the
