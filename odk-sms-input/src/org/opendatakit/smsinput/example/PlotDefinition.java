@@ -5,7 +5,7 @@ import java.util.List;
 import org.opendatakit.aggregate.odktables.rest.entity.Column;
 import org.opendatakit.common.android.utilities.ODKDatabaseUtils;
 import org.opendatakit.smsinput.api.ITableDefinition;
-import org.opendatakit.smsinput.app.ITableDefinitionFactory;
+import org.opendatakit.smsinput.app.TableDefinitionFactory;
 
 import android.database.sqlite.SQLiteDatabase;
 
@@ -36,7 +36,7 @@ public class PlotDefinition implements ITableDefinition {
   public PlotDefinition(
       ODKDatabaseUtils dbUtil,
       SQLiteDatabase appDatabase) {
-    ITableDefinitionFactory factory = new ITableDefinitionFactory();
+    TableDefinitionFactory factory = new TableDefinitionFactory();
     
     this.mFullDefinition = factory.createTableDefinition(
         dbUtil,

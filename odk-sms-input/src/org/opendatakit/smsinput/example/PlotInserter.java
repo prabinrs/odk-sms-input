@@ -6,9 +6,9 @@ import org.opendatakit.smsinput.api.ITableDefinition;
 
 import android.database.sqlite.SQLiteDatabase;
 
-public class PlotAccessor extends AbsTableInserter {
+public class PlotInserter extends AbsTableInserter {
 
-  public PlotAccessor(
+  public PlotInserter(
       ODKDatabaseUtils dbUtil,
       SQLiteDatabase appDatabase,
       String appId,

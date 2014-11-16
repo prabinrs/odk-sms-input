@@ -18,7 +18,7 @@ import android.database.sqlite.SQLiteDatabase;
  */
 public class PlotProcessor implements ISmsProcessor {
   
-  PlotAccessor mAccessor;
+  PlotInserter mAccessor;
   
   public PlotProcessor(Context context, String appId) {
     ODKDatabaseUtils dbUtil = ODKDatabaseUtils.get();
@@ -29,7 +29,7 @@ public class PlotProcessor implements ISmsProcessor {
     
     PlotDefinition plotDefinition = new PlotDefinition(dbUtil, database); 
     
-    this.mAccessor = new PlotAccessor(dbUtil, database, appId, plotDefinition);
+    this.mAccessor = new PlotInserter(dbUtil, database, appId, plotDefinition);
     
   }
 

@@ -8,7 +8,7 @@ import java.util.Map;
 import org.opendatakit.common.android.database.DatabaseFactory;
 import org.opendatakit.common.android.utilities.ODKDatabaseUtils;
 import org.opendatakit.smsinput.api.ISmsProcessor;
-import org.opendatakit.smsinput.example.PlotAccessor;
+import org.opendatakit.smsinput.example.PlotInserter;
 import org.opendatakit.smsinput.example.PlotProcessor;
 import org.opendatakit.smsinput.logic.WriteStockMessageProcessor;
 import org.opendatakit.smsinput.util.Constants;

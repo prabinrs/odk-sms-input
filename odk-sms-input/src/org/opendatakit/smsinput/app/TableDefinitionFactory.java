@@ -14,7 +14,7 @@ import android.database.sqlite.SQLiteDatabase;
  * @author sudar.sam@gmail.com
  *
  */
-public class ITableDefinitionFactory {
+public class TableDefinitionFactory {
   
   public ITableDefinition createTableDefinition(
       ODKDatabaseUtils dbUtil,
