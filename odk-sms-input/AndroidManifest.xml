@@ -28,10 +28,12 @@
         </activity>
         
         <activity
-            android:name="org.opendatakit.smsinput.activity.ListAllMessagesActivity" />
+            android:name="org.opendatakit.smsinput.activity.ListAllMessagesActivity"
+            android:label="@string/all_messages" />
         
         <activity
-            android:name="org.opendatakit.smsinput.activity.ListSmsEnabledAppsActivity" />
+            android:name="org.opendatakit.smsinput.activity.ListSmsEnabledAppsActivity"
+            android:label="@string/sms_enabled_apps" />
         
 		<receiver android:name="org.opendatakit.smsinput.receiver.SmsReceiver" android:enabled="true">
 			<intent-filter>

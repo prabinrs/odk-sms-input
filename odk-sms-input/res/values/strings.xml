@@ -5,6 +5,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     
+    <string name="all_messages">All Messages</string>
+    <string name="sms_enabled_apps">SMS-Enabled Apps</string>
+    
     <string name="welcome_title">ODK SMS Input</string>
     
     <string name="welcome_message">ODK SMS Input allows you to read, parse, and
