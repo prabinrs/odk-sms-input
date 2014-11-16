@@ -115,7 +115,7 @@ so we can ignore them.
 
 The contents of the plot table before any new insertions are shown below:
 
-| plot\_name|  planting      |    psets  |  comments  |
+| plot\_name|  planting      |    pests  |  comments  |
 |-----------|----------------|-----------|------------|
 |Recoleta  | Pampas-Grass   | Mosquitoes| Lush.       |
 
@@ -124,7 +124,7 @@ to have the format: `plot plot_name planting`. With the `processor` set up,
 after receiving an SMS with the body: `plot Palermo Bananas`, the contents of
 the table would be:
 
-| plot\_name|  planting      |    psets  |  comments  |
+| plot\_name|  planting      |    pests  |  comments  |
 |-----------|----------------|-----------|------------|
 |Recoleta  | Pampas-Grass   | Mosquitoes | Lush.      |
 |Palermo   | Bananas        |            |            |
