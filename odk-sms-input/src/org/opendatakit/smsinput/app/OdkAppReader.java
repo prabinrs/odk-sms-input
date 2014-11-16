@@ -5,16 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.opendatakit.common.android.database.DatabaseFactory;
-import org.opendatakit.common.android.utilities.ODKDatabaseUtils;
 import org.opendatakit.smsinput.api.ISmsProcessor;
-import org.opendatakit.smsinput.example.PlotInserter;
-import org.opendatakit.smsinput.example.PlotProcessor;
 import org.opendatakit.smsinput.logic.WriteStockMessageProcessor;
 import org.opendatakit.smsinput.util.Constants;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 /**
@@ -92,10 +87,6 @@ public class OdkAppReader {
        
     List<ISmsProcessor> result = new ArrayList<ISmsProcessor>();
     result.add(tablesProcessor);
-    
-    // We will also add the plot processor.
-    ISmsProcessor plotProcessor = new PlotProcessor(this.mContext, appId);
-    result.add(plotProcessor);
     
     return result;
     
