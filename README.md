@@ -14,6 +14,9 @@ When used with the [ODK SMS Bridge](https://github.com/srsudar/odk-sms-bridge),
 you can use Survey on a phone without internet connectivity, communicate that
 data to a phone running ODK SMS Input, and it will all appear in the database.
 
+While not currently on the Play Store, you can download the latest snapshot
+build [here](http://samsudar.com/projects/apks/odk-sms-input-1-0-0.apk).
+
 ### Interface
 
 For the most part, the app should work behind the scenes. A UI is included to
