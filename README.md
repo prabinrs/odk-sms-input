@@ -207,6 +207,7 @@ public class PlotDefinition implements ITableDefinition {
   public List<Column> getColumns() {
     return this.mFullDefinition.getColumns();
   }
+}
 ```
 
 ### Processor
@@ -218,7 +219,7 @@ the extracted values into the table.
 ```java
 public class PlotProcessor implements ISmsProcessor {
   
-  PlotAccessor mAccessor;
+  PlotInserter mAccessor;
   
   public PlotProcessor(Context context, String appId) {
     ODKDatabaseUtils dbUtil = ODKDatabaseUtils.get();
@@ -229,7 +230,7 @@ public class PlotProcessor implements ISmsProcessor {
     
     PlotDefinition plotDefinition = new PlotDefinition(dbUtil, database); 
     
-    this.mAccessor = new PlotAccessor(dbUtil, database, appId, plotDefinition);
+    this.mAccessor = new PlotInserter(dbUtil, database, appId, plotDefinition);
     
   }
 
