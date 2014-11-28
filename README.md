@@ -207,6 +207,7 @@ public class PlotDefinition implements ITableDefinition {
   public List<Column> getColumns() {
     return this.mFullDefinition.getColumns();
   }
+
 }
 ```
 
@@ -289,6 +290,7 @@ an example implementation inside `OdkAppReader`:
 public List<ISmsProcessor> getProcessorsForAppId(
     Context context,
     String appId) {
+
   List<ISmsProcessor> result = new ArrayList<ISmsProcessor>();
 
   if (appId.equals("plot_app")) {
@@ -297,6 +299,7 @@ public List<ISmsProcessor> getProcessorsForAppId(
   }
 
   return result;
+
 }
 ```
 
